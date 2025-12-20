@@ -25,7 +25,10 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+// Use Render-provided port with a safe local fallback
 const PORT = process.env.PORT || 3000;
+// Bind to all network interfaces (required by many PaaS providers like Render)
+const HOST = "0.0.0.0";
 const __dirname = path.resolve();
 
 
@@ -36,13 +39,18 @@ app.use("/api/v1/job", jobRoute);
 app.use("/api/v1/application", applicationRoute);
 app.use("/api/v1/ai", aiRoute);
 
+// lightweight health check so root/health endpoints respond even without frontend build
+app.get("/health", (req, res) => {
+    res.status(200).json({ status: "ok" });
+});
+
 app.use(express.static(path.join(__dirname, "/frontend/dist")));
 app.get("*", (_, res) => {
     res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
 });
 
 
-app.listen(PORT,()=>{
+app.listen(PORT, HOST, ()=>{
     connectDB();
-    console.log(`Server running at port ${PORT}`);
+    console.log(`Server running on http://${HOST}:${PORT}`);
 })
