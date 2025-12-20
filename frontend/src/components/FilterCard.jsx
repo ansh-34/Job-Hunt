@@ -23,13 +23,10 @@ const FilterCard = () => {
     const [selectedValue, setSelectedValue] = useState('');
     const dispatch = useDispatch();
     const changeHandler = (value) => {
-        console.log("=== Filter Clicked ===");
-        console.log("Selected value:", value);
+        
         setSelectedValue(value);
     }
     useEffect(()=>{
-        console.log("=== useEffect Triggered ===");
-        console.log("Dispatching searched query:", selectedValue);
         dispatch(setSearchedQuery(selectedValue));
     },[selectedValue]);
     return (

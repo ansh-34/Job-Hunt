@@ -14,6 +14,8 @@ import AdminJobs from "./components/admin/AdminJobs";
 import PostJob from './components/admin/PostJob'
 import Applicants from './components/admin/Applicants'
 import ProtectedRoute from './components/admin/ProtectedRoute'
+import UserProtectedRoute from './components/auth/UserProtectedRoute'
+import ResumeAI from './pages/ResumeAI'
 
 
 const appRouter = createBrowserRouter([
@@ -44,6 +46,10 @@ const appRouter = createBrowserRouter([
   {
     path: "/profile",
     element: <Profile />
+  },
+  {
+    path: "/resume-ai",
+    element: <UserProtectedRoute><ResumeAI /></UserProtectedRoute>
   },
   // admin ke liye yha se start hoga
   {

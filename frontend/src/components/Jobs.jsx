@@ -14,15 +14,11 @@ const Jobs = () => {
     const [filterJobs, setFilterJobs] = useState([]);
 
     useEffect(() => {
-        console.log("=== Jobs Component useEffect ===");
-        console.log("allJobs:", allJobs);
-        console.log("searchedQuery:", searchedQuery);
         
         // The backend already filters based on searchedQuery
         // So we just use the allJobs directly from Redux
         setFilterJobs(allJobs);
-        
-        console.log("filterJobs set to:", allJobs);
+    
     }, [allJobs, searchedQuery]);
 
     return (

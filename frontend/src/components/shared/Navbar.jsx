@@ -24,7 +24,6 @@ const Navbar = () => {
                 toast.success(res.data.message);
             }
         } catch (error) {
-            console.log(error);
             toast.error(error?.response?.data?.message || "An error occurred. Please try again.");
         }
     }
@@ -49,6 +48,9 @@ const Navbar = () => {
                                     <li><Link to="/" className='hover:text-[#7209b7] transition-colors duration-300 hover:underline underline-offset-4'>Home</Link></li>
                                     <li><Link to="/jobs" className='hover:text-[#7209b7] transition-colors duration-300 hover:underline underline-offset-4'>Jobs</Link></li>
                                     <li><Link to="/browse" className='hover:text-[#7209b7] transition-colors duration-300 hover:underline underline-offset-4'>Browse</Link></li>
+                                    {user && user.role === 'student' && (
+                                        <li><Link to="/resume-ai" className='hover:text-[#7209b7] transition-colors duration-300 hover:underline underline-offset-4'>AI Resume Review</Link></li>
+                                    )}
                                 </>
                             )
                         }
@@ -85,6 +87,15 @@ const Navbar = () => {
                                                     <div className='flex w-fit items-center gap-2 cursor-pointer hover:text-[#7209b7] transition-colors'>
                                                         <User2 />
                                                         <Link to="/profile" className='font-medium'>View Profile</Link>
+                                                    </div>
+                                                )
+                                            }
+
+                                            {
+                                                user && user.role === 'student' && (
+                                                    <div className='flex w-fit items-center gap-2 cursor-pointer hover:text-[#7209b7] transition-colors'>
+                                                        <User2 />
+                                                        <Link to="/resume-ai" className='font-medium'>AI Resume Review</Link>
                                                     </div>
                                                 )
                                             }
