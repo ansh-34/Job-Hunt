@@ -19,15 +19,21 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
 
-// Allow production frontend, backend domain, and local dev
+// Allow same-domain, local dev, and any origin for API calls
 const allowedOrigins = [
     "https://job-hunt-uisy.onrender.com",
-    "https://jobhunt-5r8e.onrender.com",
-    "http://localhost:5173"
+    "http://localhost:5173",
+    "http://localhost:3000"
 ];
 
 app.use(cors({
-    origin: allowedOrigins,
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(null, true); // Allow for relative path requests
+        }
+    },
     credentials: true,
 }));
 
