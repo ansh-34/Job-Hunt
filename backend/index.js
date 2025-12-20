@@ -18,12 +18,18 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
-const corsOptions = {
-    origin:'https://jobhunt-5r8e.onrender.com/',
-    credentials:true
-}
 
-app.use(cors(corsOptions));
+// Allow production frontend, backend domain, and local dev
+const allowedOrigins = [
+    "https://job-hunt-uisy.onrender.com",
+    "https://jobhunt-5r8e.onrender.com",
+    "http://localhost:5173"
+];
+
+app.use(cors({
+    origin: allowedOrigins,
+    credentials: true,
+}));
 
 // Use Render-provided port with a safe local fallback
 const PORT = process.env.PORT || 3000;
