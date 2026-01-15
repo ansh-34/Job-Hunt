@@ -19,13 +19,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// CORS configuration (production + local)
-const allowedOrigins = [
-  "https://job-hunt-zeta-peach.vercel.app",
-  "https://job-hunt-uisy.onrender.com",
-  "http://localhost:5173",
-  "http://localhost:3000"
-];
+// CORS configuration - Load allowed origins from environment variable
+const allowedOrigins = process.env.FRONTEND_URL 
+  ? process.env.FRONTEND_URL.split(',').map(url => url.trim())
+  : ["http://localhost:5173", "http://localhost:3000"];
 
 app.use(
   cors({
