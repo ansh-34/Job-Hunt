@@ -330,7 +330,7 @@ The application includes an AI-powered resume review feature that:
    - Render will automatically build and deploy
    - Access your app at the provided URL
 
-## 🧪 Testing
+## 🧪 Testing 
 
 **Manual Testing:**
 1. Register as a student and recruiter (use different emails)
