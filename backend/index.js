@@ -22,7 +22,13 @@ app.use(cookieParser());
 // CORS configuration - Load allowed origins from environment variable
 const allowedOrigins = process.env.FRONTEND_URL 
   ? process.env.FRONTEND_URL.split(',').map(url => url.trim())
-  : ["http://localhost:5173", "http://localhost:3000"];
+  : [
+      "https://job-hunt-zeta-peach.vercel.app",
+      "http://localhost:5173",
+      "http://localhost:3000"
+    ];
+
+console.log("Allowed CORS origins:", allowedOrigins);
 
 app.use(
   cors({
@@ -34,6 +40,7 @@ app.use(
         return callback(null, true);
       }
 
+      console.log(`CORS blocked origin: ${origin}`);
       return callback(new Error("Not allowed by CORS"));
     },
     credentials: true
