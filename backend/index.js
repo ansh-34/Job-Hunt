@@ -19,12 +19,12 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
 
-// Allow same-domain, local dev, and any origin for API calls
+// CORS configuration - Updated: 2026-01-16
 const allowedOrigins = [
+    "https://job-hunt-zeta-peach.vercel.app",
     "https://job-hunt-uisy.onrender.com",
     "http://localhost:5173",
-    "http://localhost:3000",
-    "https://job-hunt-zeta-peach.vercel.app"
+    "http://localhost:3000"
 ];
 
 app.use(cors({
