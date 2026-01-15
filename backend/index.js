@@ -16,54 +16,57 @@ const app = express();
 
 // middleware
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// CORS configuration - Updated: 2026-01-16
+// CORS configuration (production + local)
 const allowedOrigins = [
-    "https://job-hunt-zeta-peach.vercel.app",
-    "https://job-hunt-uisy.onrender.com",
-    "http://localhost:5173",
-    "http://localhost:3000"
+  "https://job-hunt-zeta-peach.vercel.app",
+  "https://job-hunt-uisy.onrender.com",
+  "http://localhost:5173",
+  "http://localhost:3000"
 ];
 
-app.use(cors({
+app.use(
+  cors({
     origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(null, true); // Allow for relative path requests
-        }
-    },
-    credentials: true,
-}));
+      // allow requests with no origin (like Postman)
+      if (!origin) return callback(null, true);
 
-// Use Render-provided port with a safe local fallback
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true
+  })
+);
+
+// Use Render-provided port with fallback
 const PORT = process.env.PORT || 3000;
-// Bind to all network interfaces (required by many PaaS providers like Render)
 const HOST = "0.0.0.0";
 const __dirname = path.resolve();
 
-
-// api's
+// APIs
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/company", companyRoute);
 app.use("/api/v1/job", jobRoute);
 app.use("/api/v1/application", applicationRoute);
 app.use("/api/v1/ai", aiRoute);
 
-// lightweight health check so root/health endpoints respond even without frontend build
+// Health check
 app.get("/health", (req, res) => {
-    res.status(200).json({ status: "ok" });
+  res.status(200).json({ status: "ok" });
 });
 
+// If you later serve frontend from backend
 // app.use(express.static(path.join(__dirname, "/frontend/dist")));
 // app.get("*", (_, res) => {
-//     res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+//   res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
 // });
 
-
-app.listen(PORT, HOST, ()=>{
-    connectDB();
-    console.log(`Server running on http://${HOST}:${PORT}`);
-})
+app.listen(PORT, HOST, () => {
+  connectDB();
+  console.log(`Server running on http://${HOST}:${PORT}`);
+});
