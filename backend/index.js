@@ -23,7 +23,8 @@ app.use(cookieParser());
 const allowedOrigins = [
     "https://job-hunt-uisy.onrender.com",
     "http://localhost:5173",
-    "http://localhost:3000","https://job-hunt-zeta-peach.vercel.app/"
+    "http://localhost:3000",
+    "https://job-hunt-zeta-peach.vercel.app"
 ];
 
 app.use(cors({
